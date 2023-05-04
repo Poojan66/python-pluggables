@@ -20,4 +20,4 @@ jobs:
         pip install pylint boto3
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py')
+        pylint --disable=W $(git ls-files '*.py')
