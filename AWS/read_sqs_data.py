@@ -1,32 +1,44 @@
-import boto3
+"""
+    _summary_
+"""
 import json
+import boto3
 
-# Create an SQS client
-sqs = boto3.client('sqs')
 
-# Set up the queue URL and message attributes
-queue_url = 'https://sqs.us-west-2.amazonaws.com/123456789012/my-queue'
-message_attributes = ['Attribute1', 'Attribute2', 'Attribute3']
+def receive_messages_from_sqs(queue_url, message_attributes):
+    """
+    Receive messages from an SQS queue and process them.
 
-# Receive messages from the queue
-response = sqs.receive_message(
-    QueueUrl=queue_url,
-    MessageAttributeNames=message_attributes,
-    MaxNumberOfMessages=10
-)
+    Parameters:
+        queue_url (str): The URL of the SQS queue.
+        message_attributes (list): A list of message attributes to retrieve.
 
-# Process the messages
-for message in response['Messages']:
-    body = json.loads(message['Body'])
-    message_id = message['MessageId']
-    attribute1 = message['MessageAttributes']['Attribute1']['StringValue']
-    attribute2 = message['MessageAttributes']['Attribute2']['StringValue']
-    attribute3 = message['MessageAttributes']['Attribute3']['StringValue']
+    Returns:
+        None
 
-    # Process the message here using the extracted data
+    Raises:
+        botocore.exceptions.ClientError: An error occurred while communicating with AWS.
+    """
 
-    # Delete the message from the queue after processing
-    sqs.delete_message(
+    # Create an SQS client
+    sqs = boto3.client('sqs')
+
+    # Receive messages from the queue
+    response = sqs.receive_message(
         QueueUrl=queue_url,
-        ReceiptHandle=message['ReceiptHandle']
+        MessageAttributeNames=message_attributes,
+        MaxNumberOfMessages=10
     )
+
+    # Process the messages
+    for message in response['Messages']:
+        body = json.loads(message['Body'])
+        print(body)
+
+        # Process the message here using the extracted data
+
+        # Delete the message from the queue after processing
+        sqs.delete_message(
+            QueueUrl=queue_url,
+            ReceiptHandle=message['ReceiptHandle']
+        )
