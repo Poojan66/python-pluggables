@@ -27,7 +27,7 @@ def lambda_handler(event, context):
     user_id = event['user_id']
 
     # Instantiate SQSQueue class with SQS queue URL
-    queue_url = 'https://sqs.<aws-region>.amazonaws.com/<account-id>/<queue-name>'
+    queue_url = 'https://sqs.<aws-region>.amazonaws.com/<account-id>/queue-name'
     queue = SQSQueue(queue_url)
 
     # Push message to SQS queue for the specified user
