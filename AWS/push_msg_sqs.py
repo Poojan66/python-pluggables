@@ -1,5 +1,6 @@
 import boto3
 
+
 class SQSQueue:
     def __init__(self, queue_url):
         self.queue_url = queue_url
@@ -20,6 +21,7 @@ class SQSQueue:
         )
 
         return response
+
 
 def lambda_handler(event, context):
     # Read message body and user ID from event

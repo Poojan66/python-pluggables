@@ -22,9 +22,9 @@ for message in response['Messages']:
     attribute1 = message['MessageAttributes']['Attribute1']['StringValue']
     attribute2 = message['MessageAttributes']['Attribute2']['StringValue']
     attribute3 = message['MessageAttributes']['Attribute3']['StringValue']
-    
+
     # Process the message here using the extracted data
-    
+
     # Delete the message from the queue after processing
     sqs.delete_message(
         QueueUrl=queue_url,
